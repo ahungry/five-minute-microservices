@@ -1,0 +1,4 @@
+default:
+
+start:
+	./start.sh

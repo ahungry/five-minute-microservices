@@ -15,3 +15,12 @@ CLOCK: [2018-08-14 Tue 22:45]--[2018-08-14 Tue 22:58] =>  0:13
 :END:
 Implement a plain old microservice giving the /version endpoint
 response on a self hosted webserver.
+
+* Common Lisp
+** Vanilla
+*** v0.0.1
+:LOGBOOK:
+CLOCK: [2018-08-14 Tue 23:01]
+:END:
+Implement a plain old microservice giving the /version endpoint
+response on a self hosted webserver.
