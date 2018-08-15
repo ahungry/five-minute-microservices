@@ -176,12 +176,12 @@ void http_send_client_response(int csock)
   // Politely hang up the call.
   shutdown (csock, SHUT_RDWR);
 
-  exit (EXIT_SUCCESS);
+  // exit (EXIT_SUCCESS);
 }
 
 // ptr is the csock waiting to be serviced
-void
-*thread_fn (void *ptr)
+void *
+thread_fn (void *ptr)
 {
   printf ("Time to output\n");
 
@@ -189,6 +189,9 @@ void
   // int csock = (int) ptr;
   // intptr_t csock = (intptr_t**)ptr;
   int csock = (int) ptr;
+
+  if (csock == -1) return NULL;
+
   // int csock = (int)ptr;
 
   // printf ("Go to output\n");
@@ -198,6 +201,7 @@ void
   // close(csock);
 
   http_send_client_response (csock);
+  close(csock);
 
   return NULL;
 }
@@ -211,31 +215,40 @@ void take_connections_forever(int ssock)
     struct sockaddr addr;
     socklen_t addr_size = sizeof(addr);
     int csock;
-    // pthread_t pth;
+    pthread_t pth;
 
     /* Block until we take one connection to the server socket */
     csock = accept(ssock, &addr, &addr_size);
 
+    if (csock < 0) continue;
+
     printf ("My csock is: %d\n", csock);
 
-    // pthread_create(&pth, NULL, thread_fn, (void*)csock);
-
-    if ( csock == -1 ) {
+    // Are you kidding me?? 14285.71 req / sec!
+    //  siege -r100 -c10 http://localhost:12004/
+    if (csock == -1) {
       perror("accept");
-    } else if ( fork() == 0 ) {
-      close(ssock);
-
-      // Try with threads - 8333 req/sec with:
-      //  siege -r100 -c10 http://localhost:12004/
-      http_send_client_response(csock);
-
-      // Try with threads - 7000 req/sec with:
-      //  siege -r100 -c10 http://localhost:12004/
-      /* pthread_create(&pth, NULL, thread_fn, (void*)csock); */
-      /* pthread_join(pth, NULL); */
     } else {
-      close(csock);
+      pthread_create(&pth, NULL, thread_fn, (void*)csock);
     }
+    // pthread_join(pth, NULL);
+
+    /* if ( csock == -1 ) { */
+    /*   perror("accept"); */
+    /* } else if ( fork() == 0 ) { */
+    /*   close(ssock); */
+
+    /*   // Try with threads - 8333 req/sec with: */
+    /*   //  siege -r100 -c10 http://localhost:12004/ */
+    /*   http_send_client_response(csock); */
+
+    /*   // Try with threads - 7000 req/sec with: */
+    /*   //  siege -r100 -c10 http://localhost:12004/ */
+    /*   /\* pthread_create(&pth, NULL, thread_fn, (void*)csock); *\/ */
+    /*   /\* pthread_join(pth, NULL); *\/ */
+    /* } else { */
+    /*   close(csock); */
+    /* } */
 
     //If it was a successful connection, spawn a worker process to service it
     /* if ( csock == -1 ) { */
