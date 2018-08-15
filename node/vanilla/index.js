@@ -2,6 +2,8 @@
 
 const http = require('http')
 
+console.log('Running on port 12002')
+
 //create a server object:
 http.createServer(function (req, res) {
   res.write('"0.0.1"') //write a response to the client

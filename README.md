@@ -4,6 +4,10 @@ Will serve to be an awesome guide on different languages /
 implementations and their ease of use in whipping up a minimal
 HTTP based microservice in that language.
 
+# Benchmarks
+
+[[Benchmarks](BENCH.md)]
+
 # Usage
 
 Try out an API before or after using it by running something such as:
