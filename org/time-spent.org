@@ -20,7 +20,7 @@ response on a self hosted webserver.
 ** Vanilla
 *** v0.0.1
 :LOGBOOK:
-CLOCK: [2018-08-14 Tue 23:01]
+CLOCK: [2018-08-14 Tue 23:01]--[2018-08-14 Tue 23:19] =>  0:18
 :END:
 Implement a plain old microservice giving the /version endpoint
 response on a self hosted webserver.
