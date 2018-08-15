@@ -1,5 +1,18 @@
 # Benchmarks
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Benchmarks](#benchmarks)
+- [v0.0.1](#v001)
+    - [node](#node)
+    - [common lisp](#common-lisp)
+    - [C](#c)
+    - [PHP](#php)
+
+<!-- markdown-toc end -->
+
+
 Take these with a grain of salt.
 
 # v0.0.1

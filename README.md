@@ -1,5 +1,20 @@
 # Five Minute Microservices
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Five Minute Microservices](#five-minute-microservices)
+- [Benchmarks](#benchmarks)
+- [Usage](#usage)
+- [Project Layout](#project-layout)
+- [Requirements](#requirements)
+- [Version 0.0.x](#version-00x)
+- [License](#license)
+- [Copyright](#copyright)
+
+<!-- markdown-toc end -->
+
+
 Will serve to be an awesome guide on different languages /
 implementations and their ease of use in whipping up a minimal
 HTTP based microservice in that language.
