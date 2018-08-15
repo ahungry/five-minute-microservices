@@ -4,6 +4,16 @@ Will serve to be an awesome guide on different languages /
 implementations and their ease of use in whipping up a minimal
 HTTP based microservice in that language.
 
+# Usage
+
+Try out an API before or after using it by running something such as:
+
+```sh
+make -C php/vanilla start
+```
+
+Change the name as you see fit (must match a directory).
+
 # Project Layout
 
 The top level will consist of overall project information, similar to
