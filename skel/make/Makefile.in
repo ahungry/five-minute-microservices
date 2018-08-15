@@ -1,0 +1,4 @@
+default:
+
+start:
+	php -S localhost:12001
