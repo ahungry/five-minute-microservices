@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# -*- Mode: shell -*-
+
+#autoreconf -vi
+autoconf
+
+./configure
+
+make
