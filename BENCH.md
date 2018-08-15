@@ -36,6 +36,22 @@ Successful transactions:        1000
 Failed transactions:               0
 Longest transaction:            0.01
 Shortest transaction:           0.00
+
+siege -r100 -c100 http://localhost:12002
+
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                   1.32 secs
+Data transferred:               0.07 MB
+Response time:                  0.01 secs
+Transaction rate:            7575.76 trans/sec
+Throughput:                     0.05 MB/sec
+Concurrency:                   97.61
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:            0.02
+Shortest transaction:           0.00
+
 ```
 
 ## common lisp
@@ -47,16 +63,32 @@ siege -r100 -c10 http://localhost:12000
 
 Transactions:                   1000 hits
 Availability:                 100.00 %
-Elapsed time:                   0.22 secs
+Elapsed time:                   0.08 secs
 Data transferred:               0.01 MB
 Response time:                  0.00 secs
-Transaction rate:            4545.45 trans/sec
-Throughput:                     0.03 MB/sec
-Concurrency:                    9.68
+Transaction rate:           12500.00 trans/sec
+Throughput:                     0.08 MB/sec
+Concurrency:                    9.62
 Successful transactions:        1000
 Failed transactions:               0
 Longest transaction:            0.01
 Shortest transaction:           0.00
+
+siege -r100 -c100 http://localhost:12000
+
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                   0.80 secs
+Data transferred:               0.07 MB
+Response time:                  0.01 secs
+Transaction rate:           12500.00 trans/sec
+Throughput:                     0.08 MB/sec
+Concurrency:                   94.22
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:            0.05
+Shortest transaction:           0.00
+
 ```
 
 ## C
@@ -78,6 +110,22 @@ Successful transactions:        1000
 Failed transactions:               0
 Longest transaction:            0.01
 Shortest transaction:           0.00
+
+siege -r100 -c100 http://localhost:12003
+
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                   2.36 secs
+Data transferred:               0.07 MB
+Response time:                  0.01 secs
+Transaction rate:            4237.29 trans/sec
+Throughput:                     0.03 MB/sec
+Concurrency:                   54.30
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:            1.24
+Shortest transaction:           0.00
+
 ```
 
 ## PHP
@@ -99,4 +147,20 @@ Successful transactions:        1000
 Failed transactions:               0
 Longest transaction:            0.01
 Shortest transaction:           0.00
+
+siege -r100 -c100 http://127.0.0.1:12001
+
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                   2.41 secs
+Data transferred:               0.07 MB
+Response time:                  0.02 secs
+Transaction rate:            4149.38 trans/sec
+Throughput:                     0.03 MB/sec
+Concurrency:                   97.87
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:            0.05
+Shortest transaction:           0.00
+
 ```

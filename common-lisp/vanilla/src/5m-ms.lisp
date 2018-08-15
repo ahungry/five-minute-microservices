@@ -13,4 +13,5 @@
      (lambda (env)
        (declare (ignore env))
        '(200 (:content-type "text/plain") ("\"0.0.1\"")))
+     :server :woo
      :port 12000)))
