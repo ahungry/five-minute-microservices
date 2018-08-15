@@ -35,7 +35,8 @@ void http_send_header_success (int csock)
 /* ------------------------------------------------------------ */
 /* How to clean up after dead child processes                   */
 /* ------------------------------------------------------------ */
-void wait_for_zombie(int s)
+// void wait_for_zombie(int s)
+void wait_for_zombie()
 {
   while(waitpid(-1, NULL, WNOHANG) > 0) ;
 }
@@ -60,7 +61,7 @@ void http_send_client_response(int csock)
 void *
 thread_fn (void *ptr)
 {
-  int csock = (int) ptr;
+  intptr_t csock = (intptr_t) ptr;
 
   http_send_client_response (csock);
   close(csock);
@@ -87,7 +88,7 @@ void take_connections_forever(int ssock)
     if (csock == -1) {
       perror("accept");
     } else {
-      pthread_create(&pth, NULL, thread_fn, (void*)csock);
+      pthread_create(&pth, NULL, thread_fn, (void*)(intptr_t)csock);
     }
   }
 }

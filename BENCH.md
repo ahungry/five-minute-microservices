@@ -68,12 +68,12 @@ siege -r100 -c10 http://localhost:12003
 
 Transactions:                   1000 hits
 Availability:                 100.00 %
-Elapsed time:                   0.07 secs
+Elapsed time:                   0.06 secs
 Data transferred:               0.01 MB
 Response time:                  0.00 secs
-Transaction rate:           14285.71 trans/sec
-Throughput:                     0.10 MB/sec
-Concurrency:                    9.43
+Transaction rate:           16666.67 trans/sec
+Throughput:                     0.11 MB/sec
+Concurrency:                    9.83
 Successful transactions:        1000
 Failed transactions:               0
 Longest transaction:            0.01
