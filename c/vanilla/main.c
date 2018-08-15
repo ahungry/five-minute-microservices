@@ -225,7 +225,7 @@ void take_connections_forever(int ssock)
     } else if ( fork() == 0 ) {
       close(ssock);
 
-      // Try with threads - 8000 req/sec with:
+      // Try with threads - 8333 req/sec with:
       //  siege -r100 -c10 http://localhost:12004/
       http_send_client_response(csock);
 

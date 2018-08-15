@@ -16,3 +16,6 @@ main.o: main.c
 clean:
 	-rm *.o
 	-rm $(EXE)
+
+start: all
+	./bin/5m-ms 12003
