@@ -25,7 +25,6 @@ CLOCK: [2018-08-14 Tue 23:01]--[2018-08-14 Tue 23:19] =>  0:18
 Implement a plain old microservice giving the /version endpoint
 response on a self hosted webserver.
 
-
 * C
 ** Vanilla
 *** v0.0.1

@@ -1,5 +1,15 @@
 // Copyright (C) 2015,2016,2018 Matthew Carter <m@ahungry.com>
 
+// Commentary:
+
+// Basic socket implementation taken from (GNU Documentation License v2)
+// http://rosettacode.org/wiki/Echo_server#C
+
+// A guide with more info on network/socket programming in C
+// http://beej.us/guide/bgnet/
+
+// https://beej.us/guide/bgnet/html/single/bgnet.html#closedownhttps://beej.us/guide/bgnet/html/single/bgnet.html#closedown
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,6 +22,7 @@
 #include <signal.h>
 #include "config.h"
 #include <pthread.h>
+#include <stdint.h>
 
 #define MAX_ENQUEUED 20
 #define BUF_LEN 512
@@ -162,12 +173,32 @@ void http_send_client_response(int csock)
   http_send_header_success (csock);
   (void) write (csock, "\"0.0.1\"", 7);
 
+  // Politely hang up the call.
+  shutdown (csock, SHUT_RDWR);
+
   exit (EXIT_SUCCESS);
 }
 
-void *threadFunc(void *arg)
+// ptr is the csock waiting to be serviced
+void
+*thread_fn (void *ptr)
 {
-  printf ("Hi there\n");
+  printf ("Time to output\n");
+
+  // uintptr_t
+  // int csock = (int) ptr;
+  // intptr_t csock = (intptr_t**)ptr;
+  int csock = (int) ptr;
+  // int csock = (int)ptr;
+
+  // printf ("Go to output\n");
+
+  printf("Value is: %d", csock);
+  // http_send_client_response(csock);
+  // close(csock);
+
+  http_send_client_response (csock);
+
   return NULL;
 }
 
@@ -180,24 +211,43 @@ void take_connections_forever(int ssock)
     struct sockaddr addr;
     socklen_t addr_size = sizeof(addr);
     int csock;
-    //pthread_t pth;
+    // pthread_t pth;
 
     /* Block until we take one connection to the server socket */
     csock = accept(ssock, &addr, &addr_size);
 
-    //pthread_create(&pth, NULL, threadFunc, &csock);
+    printf ("My csock is: %d\n", csock);
 
-    //If it was a successful connection, spawn a worker process to service it
+    // pthread_create(&pth, NULL, thread_fn, (void*)csock);
+
     if ( csock == -1 ) {
       perror("accept");
     } else if ( fork() == 0 ) {
       close(ssock);
+
+      // Try with threads - 8000 req/sec with:
+      //  siege -r100 -c10 http://localhost:12004/
       http_send_client_response(csock);
+
+      // Try with threads - 7000 req/sec with:
+      //  siege -r100 -c10 http://localhost:12004/
+      /* pthread_create(&pth, NULL, thread_fn, (void*)csock); */
+      /* pthread_join(pth, NULL); */
     } else {
       close(csock);
     }
 
-    //pthread_join(pth,NULL);
+    //If it was a successful connection, spawn a worker process to service it
+    /* if ( csock == -1 ) { */
+    /*   perror("accept"); */
+    /* } else if ( fork() == 0 ) { */
+    /*   close(ssock); */
+    /*   http_send_client_response(csock); */
+    /* } else { */
+    /*   close(csock); */
+    /* } */
+
+    // pthread_join(pth, NULL);
   }
 }
 
