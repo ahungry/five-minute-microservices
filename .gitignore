@@ -1,0 +1,7 @@
+Makefile
+autom4te.cache
+vendor
+node_modules
+config.log
+config.status
+configure
