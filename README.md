@@ -31,3 +31,11 @@ Must support:
 
 - A /version endpoint which will return a JSON version string "0.0.1"
 - An automated installation/binary check from GNU Make (can chain with language installers)
+
+# License
+
+AGPLv3 or later (GNU Affero Public License)
+
+# Copyright
+
+Matthew Carter <m@ahungry.com>
