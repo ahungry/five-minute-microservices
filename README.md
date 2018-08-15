@@ -61,6 +61,14 @@ Must support:
 - A /version endpoint which will return a JSON version string "0.0.1"
 - An automated installation/binary check from GNU Make (can chain with language installers)
 
+# Version 0.1.x
+
+Must support:
+
+- POST method to /add that will take a JSON object such as: `{"a":1,
+  "b":2}` and return the sum of them as an object as such: `{"a":1,
+  "b": 2, "sum": 3}`.
+
 # License
 
 AGPLv3 or later (GNU Affero Public License)
