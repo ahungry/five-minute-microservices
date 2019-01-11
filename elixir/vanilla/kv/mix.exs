@@ -1,9 +1,9 @@
-defmodule Kvserver.MixProject do
+defmodule KV.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :kvserver,
+      app: :kv,
       version: "0.1.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,

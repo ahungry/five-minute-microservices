@@ -164,3 +164,40 @@ Longest transaction:            0.05
 Shortest transaction:           0.00
 
 ```
+
+## Guile Scheme
+
+```sh
+make -C scheme/vanilla start
+
+siege -r100 -c10 http://127.0.0.1:8080
+
+Transactions:                   1000 hits
+Availability:                 100.00 %
+Elapsed time:                   0.13 secs
+Data transferred:               0.01 MB
+Response time:                  0.00 secs
+Transaction rate:            7692.31 trans/sec
+Throughput:                     0.05 MB/sec
+Concurrency:                    9.54
+Successful transactions:        1000
+Failed transactions:               0
+Longest transaction:            0.01
+Shortest transaction:           0.00
+
+siege -r100 -c100 http://127.0.0.1:8080
+
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                   1.33 secs
+Data transferred:               0.07 MB
+Response time:                  0.01 secs
+Transaction rate:            7518.80 trans/sec
+Throughput:                     0.05 MB/sec
+Concurrency:                   98.69
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:            0.03
+Shortest transaction:           0.00
+
+```
