@@ -9,6 +9,7 @@
     - [common lisp](#common-lisp)
     - [C](#c)
     - [PHP](#php)
+    - [Guile Scheme](#guile-scheme)
 
 <!-- markdown-toc end -->
 
