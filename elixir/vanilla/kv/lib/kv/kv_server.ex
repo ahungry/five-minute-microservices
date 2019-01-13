@@ -19,13 +19,19 @@ defmodule KV.Server do
     {:ok, client} = :gen_tcp.accept(socket)
     {:ok, pid} = Task.Supervisor.start_child(KV.Server.TaskSupervisor, fn -> serve(client) end)
     #:ok = :gen_tcp.controlling_process(client, pid)
-    whatever = :gen_tcp.controlling_process(client, pid)
+    x = :gen_tcp.controlling_process(client, pid)
     #serve(client)
     loop_acceptor(socket)
   end
 
   def get_version(_x) do
-    "\"0.0.1\""
+    """
+    HTTP/1.1 200 OK
+    Content-Type: text/html
+    Connection: close
+
+    "0.0.1"
+    """
   end
 
   defp serve(socket) do
