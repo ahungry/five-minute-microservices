@@ -14,14 +14,15 @@ loop(Sock) ->
 handle(Conn) ->
   gen_tcp:send(Conn, response("\"0.0.1\"")),
   % If content-length is not sent, recv failure and tools will break.
-  %gen_tcp:close(Conn).
-  gen_tcp:shutdown(Conn, read_write).
+  % Unless you ues shutdown over close.
+  gen_tcp:close(Conn).
+  %gen_tcp:shutdown(Conn, read_write).
 
 response(Str) ->
   B = iolist_to_binary(Str),
   iolist_to_binary(
     io_lib:fwrite(
-             %"HTTP/1.0 200 OK\nContent-Type: text/html\nContent-Length: ~p\n\n~s",
-             "HTTP/1.0 200 OK\nContent-Type: text/html\n\n~s",
-             %[size(B), B])).
-             [B])).
+             "HTTP/1.0 200 OK\nContent-Type: text/html\nContent-Length: ~p\n\n~s",
+             [size(B), B])).
+             %"HTTP/1.0 200 OK\nContent-Type: text/html\n\n~s",
+             %[B])).

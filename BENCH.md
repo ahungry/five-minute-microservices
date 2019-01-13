@@ -202,3 +202,40 @@ Longest transaction:            0.03
 Shortest transaction:           0.00
 
 ```
+
+## Erlang
+
+```sh
+make -C erlang/vanilla start
+
+siege -r100 -c10 http://127.0.0.1:4040
+
+Transactions:                   1000 hits
+Availability:                 100.00 %
+Elapsed time:                   1.07 secs
+Data transferred:               0.01 MB
+Response time:                  0.00 secs
+Transaction rate:             934.58 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                    2.52
+Successful transactions:        1000
+Failed transactions:               0
+Longest transaction:            1.02
+Shortest transaction:           0.00
+
+siege -r100 -c100 http://127.0.0.1:4040
+
+Transactions:                   8314 hits
+Availability:                  88.94 %
+Elapsed time:                   4.34 secs
+Data transferred:               0.06 MB
+Response time:                  0.02 secs
+Transaction rate:            1915.67 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                   39.73
+Successful transactions:        8314
+Failed transactions:            1034
+Longest transaction:            3.49
+Shortest transaction:           0.00
+
+```

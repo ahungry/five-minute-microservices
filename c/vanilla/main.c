@@ -30,6 +30,7 @@ void http_send_header_success (int csock)
   (void) write (csock, "HTTP/1.1 200 OK\n", 16);
   (void) write (csock, "Content-Type: text/html\n", 24);
   (void) write (csock, "Connection: close\n\n", 19);
+  // TODO: Add content-length and use a proper close not shutdown rdrw
 }
 
 /* ------------------------------------------------------------ */
