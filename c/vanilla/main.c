@@ -29,8 +29,8 @@ void http_send_header_success (int csock)
 {
   (void) write (csock, "HTTP/1.1 200 OK\n", 16);
   (void) write (csock, "Content-Type: text/html\n", 24);
+  (void) write (csock, "Content-Length: 7\n", 18);
   (void) write (csock, "Connection: close\n\n", 19);
-  // TODO: Add content-length and use a proper close not shutdown rdrw
 }
 
 /* ------------------------------------------------------------ */
@@ -54,7 +54,8 @@ void http_send_client_response(int csock)
   http_send_header_success (csock);
   (void) write (csock, "\"0.0.1\"", 7);
 
-  // Politely hang up the call.
+  // Politely hang up the call (if we do not send the length).
+  // If we don't use this, error rate increases.
   shutdown (csock, SHUT_RDWR);
 }
 
