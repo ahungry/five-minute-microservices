@@ -225,17 +225,54 @@ Shortest transaction:           0.00
 
 siege -r100 -c100 http://127.0.0.1:4040
 
-Transactions:                   8314 hits
-Availability:                  88.94 %
-Elapsed time:                   4.34 secs
-Data transferred:               0.06 MB
-Response time:                  0.02 secs
-Transaction rate:            1915.67 trans/sec
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                  27.34 secs
+Data transferred:               0.07 MB
+Response time:                  0.04 secs
+Transaction rate:             365.76 trans/sec
+Throughput:                     0.00 MB/sec
+Concurrency:                   14.31
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:           27.29
+Shortest transaction:           0.00
+
+```
+
+## Elixir
+
+```sh
+make -C elixir/vanilla/kv start
+
+siege -r100 -c10 http://127.0.0.1:4040
+
+Transactions:                   1000 hits
+Availability:                 100.00 %
+Elapsed time:                   1.06 secs
+Data transferred:               0.01 MB
+Response time:                  0.00 secs
+Transaction rate:             943.40 trans/sec
 Throughput:                     0.01 MB/sec
-Concurrency:                   39.73
-Successful transactions:        8314
-Failed transactions:            1034
-Longest transaction:            3.49
+Concurrency:                    2.86
+Successful transactions:        1000
+Failed transactions:               0
+Longest transaction:            1.03
+Shortest transaction:           0.00
+
+siege -r100 -c100 http://127.0.0.1:4040
+
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                  14.23 secs
+Data transferred:               0.07 MB
+Response time:                  0.03 secs
+Transaction rate:             702.74 trans/sec
+Throughput:                     0.00 MB/sec
+Concurrency:                   21.28
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:           14.18
 Shortest transaction:           0.00
 
 ```

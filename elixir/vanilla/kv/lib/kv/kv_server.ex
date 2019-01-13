@@ -54,6 +54,7 @@ defmodule KV.Server do
     """
     HTTP/1.1 200 OK
     Content-Type: text/html
+    Content-Length: 7
     Connection: close
 
     "0.0.1"
@@ -71,7 +72,7 @@ defmodule KV.Server do
 
   defp close_sock(socket) do
     # TODO: Fix to use this so we quit erroring out
-    :gen_tcp.shutdown(socket, :read_write)
-    #:gen_tcp.close(socket)
+    #:gen_tcp.shutdown(socket, :read_write)
+    :gen_tcp.close(socket)
   end
 end
