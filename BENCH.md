@@ -10,6 +10,8 @@
     - [C](#c)
     - [PHP](#php)
     - [Guile Scheme](#guile-scheme)
+    - [Erlang](#erlang)
+    - [Elixir](#elixir)
 
 <!-- markdown-toc end -->
 
