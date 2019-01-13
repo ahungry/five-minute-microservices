@@ -205,6 +205,9 @@ Shortest transaction:           0.00
 
 ## Erlang
 
+Erlang numbers using their pre-built web server "inets" performed
+around 3500 trans/sec for both 100/10 and 100/100.
+
 ```sh
 make -C erlang/vanilla start
 
