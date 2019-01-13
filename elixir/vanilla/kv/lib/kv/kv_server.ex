@@ -18,10 +18,36 @@ defmodule KV.Server do
   defp loop_acceptor(socket) do
     {:ok, client} = :gen_tcp.accept(socket)
     {:ok, pid} = Task.Supervisor.start_child(KV.Server.TaskSupervisor, fn -> serve(client) end)
+    control_process(:gen_tcp.controlling_process(client, pid))
     #:ok = :gen_tcp.controlling_process(client, pid)
-    x = :gen_tcp.controlling_process(client, pid)
-    #serve(client)
     loop_acceptor(socket)
+  end
+
+  defp control_process({:error, e}) do
+    Logger.info("Error: #{e}")
+  end
+
+  defp control_process({:ok, e}) do
+    Logger.info("OK: #{e}")
+  end
+
+  defp control_process(:ok) do
+    Logger.info("All good")
+    #:gen_tcp.controlling_process(client, pid)
+  end
+
+  defp serve(socket) do
+    # Echo Server
+    # socket
+    # |> read_line()
+    # |> write_line(socket)
+    socket
+    |> read_line()
+    |> get_version()
+    |> write_line(socket)
+
+    close_sock(socket)
+    #serve(socket)
   end
 
   def get_version(_x) do
@@ -32,19 +58,6 @@ defmodule KV.Server do
 
     "0.0.1"
     """
-  end
-
-  defp serve(socket) do
-    # Echo Server
-    # socket
-    # |> read_line()
-    # |> write_line(socket)
-    socket
-    |> get_version()
-    |> write_line(socket)
-
-    close_sock(socket)
-    #serve(socket)
   end
 
   defp read_line(socket) do
