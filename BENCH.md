@@ -281,3 +281,37 @@ Longest transaction:           14.18
 Shortest transaction:           0.00
 
 ```
+
+## Nginx FastCGIWrap (around a tiny C sample)
+
+```sh
+siege -r100 -c10 http://localhost/a.cgi
+
+Transactions:                   1000 hits
+Availability:                 100.00 %
+Elapsed time:                   0.69 secs
+Data transferred:               0.00 MB
+Response time:                  0.01 secs
+Transaction rate:            1449.28 trans/sec
+Throughput:                     0.00 MB/sec
+Concurrency:                    9.80
+Successful transactions:        1000
+Failed transactions:               0
+Longest transaction:            0.02
+Shortest transaction:           0.00
+
+siege -r100 -c100 http://localhost/a.cgi
+
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                   6.96 secs
+Data transferred:               0.00 MB
+Response time:                  0.07 secs
+Transaction rate:            1436.78 trans/sec
+Throughput:                     0.00 MB/sec
+Concurrency:                   99.41
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:            0.10
+Shortest transaction:           0.03
+```
