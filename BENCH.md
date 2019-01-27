@@ -12,6 +12,8 @@
     - [Guile Scheme](#guile-scheme)
     - [Erlang](#erlang)
     - [Elixir](#elixir)
+    - [Nginx FastCGIWrap (around a tiny C sample)](#nginx-fastcgiwrap-around-a-tiny-c-sample)
+    - [Nginx libfcgi (around a tiny C sample)](#nginx-libfcgi-around-a-tiny-c-sample)
 
 <!-- markdown-toc end -->
 
