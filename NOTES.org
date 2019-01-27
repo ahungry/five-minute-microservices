@@ -1,0 +1,16 @@
+* General thoughts and notes
+
+For most of these, they are all equivalent or very similar - either
+they ship/build in a web server, and at that point run on an async
+event loop (node) or do heavy thread spawning in a sync fashion.
+
+Using CGI (any other than FastCGI) ends up being slow, but ensures an
+isolated process per request, which could be nice.
+
+Using CGI/FastCGI (wrap or lib) could actually allow for pushing the
+routing layer to the web server (nginx) instead of having to bake it
+into the app.
+
+What could be interesting in an approach like this would be setting up
+a system that runs each libfcgi via spawn-fcgi on a different socket
+or port entirely, for dispatching by nginx.
