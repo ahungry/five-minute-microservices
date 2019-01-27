@@ -18,6 +18,13 @@
 
 Take these with a grain of salt.
 
+Other notes and findings:
+
+Nodejs (express, native etc. - anything that uses the built in TCP)
+runs into a socket expiration problem after a few siege cycles.
+Apparently with too much concurrency, it never reclaims the used
+sockets or something.
+
 # v0.0.1
 
 ## node
@@ -314,4 +321,38 @@ Successful transactions:       10000
 Failed transactions:               0
 Longest transaction:            0.10
 Shortest transaction:           0.03
+```
+
+## Nginx libfcgi (around a tiny C sample)
+
+```sh
+siege -r100 -c10 http://localhost/blub
+
+Transactions:                   1000 hits
+Availability:                 100.00 %
+Elapsed time:                   0.09 secs
+Data transferred:               0.01 MB
+Response time:                  0.00 secs
+Transaction rate:           11111.11 trans/sec
+Throughput:                     0.07 MB/sec
+Concurrency:                    9.11
+Successful transactions:        1000
+Failed transactions:               0
+Longest transaction:            0.01
+Shortest transaction:           0.00
+
+siege -r100 -c100 http://localhost/blub
+
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                   0.95 secs
+Data transferred:               0.07 MB
+Response time:                  0.01 secs
+Transaction rate:           10526.32 trans/sec
+Throughput:                     0.07 MB/sec
+Concurrency:                   98.73
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:            0.05
+Shortest transaction:           0.00
 ```
