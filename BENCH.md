@@ -256,8 +256,12 @@ Shortest transaction:           0.00
 
 ## Elixir
 
-Using Phoenix framework with Elixir benched using 100/100 at 4700/rps.
+Using Phoenix framework (Cowboy) with Elixir benched using 100/100 at 4700/rps.
 At 10/100 it was 4100/rps.
+
+This leads me to believe the simple server implementation has some
+glaring oversight contributing to slowness (likely a similar problem
+exists on the Erlang based one).
 
 ```sh
 make -C elixir/vanilla/kv start
