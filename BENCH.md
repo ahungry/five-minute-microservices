@@ -256,6 +256,9 @@ Shortest transaction:           0.00
 
 ## Elixir
 
+Using Phoenix framework with Elixir benched using 100/100 at 4700/rps.
+At 10/100 it was 4100/rps.
+
 ```sh
 make -C elixir/vanilla/kv start
 
@@ -288,7 +291,6 @@ Successful transactions:       10000
 Failed transactions:               0
 Longest transaction:           14.18
 Shortest transaction:           0.00
-
 ```
 
 ## Nginx FastCGIWrap (around a tiny C sample)
