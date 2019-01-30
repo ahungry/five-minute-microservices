@@ -1,4 +1,5 @@
-Makefile
+*.dump
+*.beam
 autom4te.cache
 vendor
 node_modules

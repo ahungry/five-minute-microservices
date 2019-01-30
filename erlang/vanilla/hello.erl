@@ -1,7 +1,9 @@
 -module(hello).
 -export([start/1]).
 
-start(Port) ->
+start(StringPort) ->
+  io:format("Begin"),
+  {Port, _Rest} = string:to_integer(StringPort),
   spawn(fun () -> {ok, Sock} = gen_tcp:listen(Port, [{active, false}]),
                   loop(Sock) end).
 
