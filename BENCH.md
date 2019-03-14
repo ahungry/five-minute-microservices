@@ -14,6 +14,8 @@
     - [Elixir](#elixir)
     - [Nginx FastCGIWrap (around a tiny C sample)](#nginx-fastcgiwrap-around-a-tiny-c-sample)
     - [Nginx libfcgi (around a tiny C sample)](#nginx-libfcgi-around-a-tiny-c-sample)
+    - [J (https://jsoftware.com)](#j-httpsjsoftwarecom)
+    - [Clojure (Luminus framework via 'lein new luminus luminus-webserver'](#clojure-luminus-framework-via-lein-new-luminus-luminus-webserver)
 
 <!-- markdown-toc end -->
 
