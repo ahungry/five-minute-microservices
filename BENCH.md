@@ -297,6 +297,22 @@ Successful transactions:       10000
 Failed transactions:               0
 Longest transaction:           14.18
 Shortest transaction:           0.00
+
+siege -r1000 -c10 http://localhost:4040
+
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                   1.50 secs
+Data transferred:               0.07 MB
+Response time:                  0.00 secs
+Transaction rate:            6666.67 trans/sec
+Throughput:                     0.04 MB/sec
+Concurrency:                    6.68
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:            1.03
+Shortest transaction:           0.00
+
 ```
 
 ## Nginx FastCGIWrap (around a tiny C sample)
