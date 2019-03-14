@@ -402,3 +402,53 @@ Failed transactions:               1
 Longest transaction:            0.01
 Shortest transaction:           0.00
 ```
+
+## Clojure (Luminus framework via 'lein new luminus luminus-webserver'
+
+```sh
+siege -r100 -c10 http://localhost:3000
+
+Transactions:                   1000 hits
+Availability:                 100.00 %
+Elapsed time:                   0.73 secs
+Data transferred:               0.00 MB
+Response time:                  0.01 secs
+Transaction rate:            1369.86 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                    9.66
+Successful transactions:        1000
+Failed transactions:               0
+Longest transaction:            0.03
+Shortest transaction:           0.00
+
+siege -r100 -c100 http://localhost:3000
+
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                   3.86 secs
+Data transferred:               0.05 MB
+Response time:                  0.04 secs
+Transaction rate:            2590.67 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                   95.94
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:            0.19
+Shortest transaction:           0.00
+
+siege -r1000 -c100 http://localhost:3000
+
+Transactions:                 100000 hits
+Availability:                 100.00 %
+Elapsed time:                  25.61 secs
+Data transferred:               0.48 MB
+Response time:                  0.03 secs
+Transaction rate:            3904.72 trans/sec
+Throughput:                     0.02 MB/sec
+Concurrency:                   98.00
+Successful transactions:      100000
+Failed transactions:               0
+Longest transaction:            0.09
+Shortest transaction:           0.00
+
+```

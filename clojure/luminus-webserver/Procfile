@@ -1,0 +1,1 @@
+web: java -cp target/uberjar/luminus-webserver.jar clojure.main -m luminus-webserver.core
