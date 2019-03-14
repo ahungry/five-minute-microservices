@@ -364,3 +364,41 @@ Failed transactions:               0
 Longest transaction:            0.05
 Shortest transaction:           0.00
 ```
+
+## J (https://jsoftware.com)
+
+This has no concept of concurrency (in the language I suppose), so
+this is going to have terrible performance (siege segfaults with 100
+concurrent hits on this test).
+
+```sh
+siege -r100 -c10 http://localhost:12321
+
+Transactions:                    999 hits
+Availability:                  99.90 %
+Elapsed time:                   1.07 secs
+Data transferred:               0.01 MB
+Response time:                  0.00 secs
+Transaction rate:             933.64 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                    4.40
+Successful transactions:         999
+Failed transactions:               1
+Longest transaction:            1.02
+Shortest transaction:           0.00
+
+siege -r10000 -c1 http://localhost:12321
+
+Transactions:                   9999 hits
+Availability:                  99.99 %
+Elapsed time:                   1.94 secs
+Data transferred:               0.07 MB
+Response time:                  0.00 secs
+Transaction rate:            5154.12 trans/sec
+Throughput:                     0.03 MB/sec
+Concurrency:                    0.84
+Successful transactions:        9999
+Failed transactions:               1
+Longest transaction:            0.01
+Shortest transaction:           0.00
+```
