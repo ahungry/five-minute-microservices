@@ -18,6 +18,7 @@
   (cc/GET "/" [] hello-world)
   (cc/GET "/version" [] version))
 
+;; https://github.com/ring-clojure/ring/wiki/Concepts
 (defn wrap-headers [handler]
   (fn [req]
     (let [res (handler req)]
