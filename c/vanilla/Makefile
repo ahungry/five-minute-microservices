@@ -19,3 +19,9 @@ clean:
 
 start: all
 	./bin/5m-ms 12003
+
+docker-build:
+	docker build -t 5m-ms-c-vanilla .
+
+docker-run:
+	docker run --rm -it -p 3005:12003 5m-ms-c-vanilla
