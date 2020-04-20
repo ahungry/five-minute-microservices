@@ -4,11 +4,29 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+
+#ifdef _WIN32
+// For windows
+#include <winsock2.h>
+#include <windows.h>
+#include <ws2tcpip.h>
+#include <iphlpapi.h>
+
+// Taken from posix/wait.h
+#define WNOHANG          0x00000001
+
+// Taken from unistd.h
+#define SHUT_RDWR 0x02
+
+#else
+// For good systems
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/wait.h>
 #include <netdb.h>
 #include <unistd.h>
-#include <sys/wait.h>
+#endif
+
 #include <signal.h>
 #include "config.h"
 #include <pthread.h>
@@ -37,10 +55,14 @@ void http_send_header_success (int csock)
 /* How to clean up after dead child processes                   */
 /* ------------------------------------------------------------ */
 // void wait_for_zombie(int s)
+#ifdef _WIN32
+void wait_for_zombie () {}
+#else
 void wait_for_zombie()
 {
   while(waitpid(-1, NULL, WNOHANG) > 0) ;
 }
+#endif
 
 /* ------------------------------------------------------------ */
 /* Core of implementation of a child process                    */
@@ -95,18 +117,108 @@ void take_connections_forever(int ssock)
   }
 }
 
-/* ------------------------------------------------------------ */
-/* The server process's one-off setup code                      */
-/* ------------------------------------------------------------ */
+#ifdef _WIN32
 
-int main(int argc, char *argv[])
+WSADATA wsaData;
+
+int
+make_sock ()
+{
+  int iResult;
+
+  // Initialize Winsock
+  iResult = WSAStartup (MAKEWORD (2,2), &wsaData);
+
+  if (iResult != 0)
+    {
+      printf ("WSAStartup failed: %d\n", iResult);
+      return 1;
+    }
+
+  struct addrinfo *result = NULL, *ptr = NULL, hints;
+
+  ZeroMemory (&hints, sizeof (hints));
+
+  hints.ai_family = AF_INET;
+  hints.ai_socktype = SOCK_STREAM;
+  hints.ai_protocol = IPPROTO_TCP;
+  hints.ai_flags = AI_PASSIVE;
+
+  iResult = getaddrinfo (NULL, PORT_STR, &hints, &result);
+  if (iResult != 0)
+    {
+      printf ("getaddrinfo failed: %d\n", iResult);
+      WSACleanup ();
+
+      return 1;
+    }
+
+  SOCKET ListenSocket = INVALID_SOCKET;
+  ListenSocket = socket (result->ai_family, result->ai_socktype,
+                         result->ai_protocol);
+
+  if (ListenSocket == INVALID_SOCKET) {
+    printf ("Error at socket(): %ld\n", WSAGetLastError ());
+    freeaddrinfo (result);
+    WSACleanup ();
+
+    return 1;
+  }
+
+  // Setup the TCP listening socket
+  iResult = bind (ListenSocket, result->ai_addr, (int) result->ai_addrlen);
+
+  if (iResult == SOCKET_ERROR)
+    {
+      printf ("bind failed with error: %d\n", WSAGetLastError ());
+      freeaddrinfo (result);
+      closesocket (ListenSocket);
+      WSACleanup ();
+
+      return 1;
+    }
+
+  freeaddrinfo (result);
+
+  if (listen (ListenSocket, SOMAXCONN) == SOCKET_ERROR)
+    {
+      printf ("Listen failed with error: %ld\n", WSAGetLastError ());
+      closesocket (ListenSocket);
+      WSACleanup ();
+
+      return 1;
+    }
+
+  /* SOCKET ClientSocket; */
+
+  /* ClientSocket = INVALID_SOCKET; */
+
+  /* // TODO: Fix this lame attempt */
+  /* // https://docs.microsoft.com/en-us/windows/win32/winsock/accepting-a-connection */
+  /* // Accept a client socket */
+  /* ClientSocket = accept (ListenSocket, NULL, NULL); */
+  /* if (ClientSocket == INVALID_SOCKET) */
+  /*   { */
+  /*     printf ("accept failed: %d\n", WSAGetLastError()); */
+  /*     closesocket (ListenSocket); */
+  /*     WSACleanup (); */
+
+  /*     return 1; */
+  /*   } */
+
+  return ListenSocket;
+}
+#else
+int
+make_sock ()
 {
   struct addrinfo hints, *res;
   struct sigaction sa;
   int sock;
   char portno[10];
 
-  strcpy (portno, argc > 1 ? argv[1] : PORT_STR);
+  // strcpy (portno, argc > 1 ? argv[1] : PORT_STR);
+  strcpy (portno, PORT_STR); //
 
   /* Look up the address to bind to */
   memset(&hints, 0, sizeof(struct addrinfo));
@@ -148,7 +260,25 @@ int main(int argc, char *argv[])
     exit(EXIT_FAILURE);
   }
 
+  return sock;
+
+  /* /\* Serve the listening socket until killed *\/ */
+  /* take_connections_forever(sock); */
+  /* return EXIT_SUCCESS; */
+}
+#endif
+
+/* ------------------------------------------------------------ */
+/* The server process's one-off setup code                      */
+/* ------------------------------------------------------------ */
+
+int
+main(int argc, char *argv[])
+{
+  int sock = make_sock ();
+
   /* Serve the listening socket until killed */
   take_connections_forever(sock);
+
   return EXIT_SUCCESS;
 }

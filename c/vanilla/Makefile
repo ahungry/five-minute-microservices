@@ -1,3 +1,5 @@
+# -*- mode: makefile; -*-
+
 CC?= gcc
 
 CFLAGS = -Wall -c -std=gnu99 -I/usr/local/include

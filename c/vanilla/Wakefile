@@ -1,3 +1,5 @@
+# -*- mode: makefile; -*-
+
 CC=x86_64-w64-mingw32-gcc
 
 CFLAGS = -Wall -std=c99 -I/usr/x86_64-w64-mingw32/include
@@ -8,7 +10,8 @@ EXE = bin/5m-ms.exe
 
 all: $(EXE)
 
-$(EXE): winmain.c
+#$(EXE): winmain.c
+$(EXE): main.c
 	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
 clean:
