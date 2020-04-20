@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <signal.h>
 
 #ifdef _WIN32
 // For windows
@@ -37,6 +38,29 @@
 #define MAX_HTML_FILE_SIZE 8192
 #define PORT_STR "12003"
 
+static volatile int keep_running = 1;
+
+int server_sock;
+
+void
+int_handler (int dummy)
+{
+  keep_running = 0;
+  printf ("Shutting down, freeing socket.\n");
+
+  if (server_sock)
+    {
+#ifdef _WIN32
+  closesocket (server_sock);
+  WSACleanup ();
+  exit (EXIT_SUCCESS);
+#else
+  close (server_sock);
+  exit (EXIT_SUCCESS);
+#endif
+    }
+}
+
 /**
  * Send out the successful HTTP header
  *
@@ -45,10 +69,10 @@
  */
 void http_send_header_success (int csock)
 {
-  (void) write (csock, "HTTP/1.1 200 OK\n", 16);
-  (void) write (csock, "Content-Type: text/html\n", 24);
-  (void) write (csock, "Content-Length: 7\n", 18);
-  (void) write (csock, "Connection: close\n\n", 19);
+  (void) send (csock, "HTTP/1.1 200 OK\n", 16, 0);
+  (void) send (csock, "Content-Type: text/html\n", 24, 0);
+  (void) send (csock, "Content-Length: 7\n", 18, 0);
+  (void) send (csock, "Connection: close\n\n", 19, 0);
 }
 
 /* ------------------------------------------------------------ */
@@ -74,7 +98,7 @@ void http_send_client_response(int csock)
   read (csock, buf, 130);
 
   http_send_header_success (csock);
-  (void) write (csock, "\"0.0.1\"", 7);
+  (void) send (csock, "\"0.0.1\"", 7, 0);
 
   // Politely hang up the call (if we do not send the length).
   // If we don't use this, error rate increases.
@@ -98,23 +122,40 @@ thread_fn (void *ptr)
 /* ------------------------------------------------------------ */
 void take_connections_forever(int ssock)
 {
-  for(;;) {
-    struct sockaddr addr;
-    socklen_t addr_size = sizeof(addr);
-    int csock;
-    pthread_t pth;
+  // https://stackoverflow.com/questions/2876024/linux-is-there-a-read-or-recv-from-socket-with-timeout
+#ifdef _WIN32
+  // FIXME: For some reason, this doesn't assist with not-pausing on win...
+  // WINDOWS
+  // DWORD timeout = timeout_in_seconds * 1000;
+  DWORD timeout = 500;
+  setsockopt (ssock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof timeout);
+#else
+  // LINUX
+  struct timeval tv;
+  tv.tv_sec = 0;
+  // We need a way to dynamically set this after first received byte in read() call
+  tv.tv_usec = 500000; // 500,000 would be half a second, as this is micro seconds
+  setsockopt (ssock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
+#endif
 
-    /* Block until we take one connection to the server socket */
-    csock = accept(ssock, &addr, &addr_size);
+  while (keep_running)
+    {
+      struct sockaddr addr;
+      socklen_t addr_size = sizeof(addr);
+      int csock;
+      pthread_t pth;
 
-    if (csock < 0) continue;
+      /* Block until we take one connection to the server socket */
+      csock = accept(ssock, &addr, &addr_size);
 
-    if (csock == -1) {
-      perror("accept");
-    } else {
-      pthread_create(&pth, NULL, thread_fn, (void*)(intptr_t)csock);
+      if (csock < 0) continue;
+
+      if (csock == -1) {
+        perror("accept");
+      } else {
+        pthread_create(&pth, NULL, thread_fn, (void*)(intptr_t)csock);
+      }
     }
-  }
 }
 
 #ifdef _WIN32
@@ -164,6 +205,10 @@ make_sock ()
 
     return 1;
   }
+
+  // https://linux.die.net/man/3/setsockopt
+  int enable = 1;
+  setsockopt (ListenSocket, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof (int));
 
   // Setup the TCP listening socket
   iResult = bind (ListenSocket, result->ai_addr, (int) result->ai_addrlen);
@@ -246,6 +291,10 @@ make_sock ()
     exit(EXIT_FAILURE);
   }
 
+  // https://linux.die.net/man/3/setsockopt
+  int enable = 1;
+  setsockopt (sock, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof (int));
+
   /* Associate the socket with its address */
   if ( bind(sock, res->ai_addr, res->ai_addrlen) != 0 ) {
     perror("bind");
@@ -275,10 +324,13 @@ make_sock ()
 int
 main(int argc, char *argv[])
 {
+  signal (SIGINT, int_handler);
+
   int sock = make_sock ();
+  server_sock = sock;
 
   /* Serve the listening socket until killed */
-  take_connections_forever(sock);
+  take_connections_forever (sock);
 
   return EXIT_SUCCESS;
 }
