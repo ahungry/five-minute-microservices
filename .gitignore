@@ -9,3 +9,5 @@ configure
 
 *.o
 c/vanilla/bin/5m-ms
+
+*.exe

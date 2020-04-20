@@ -1,0 +1,25 @@
+CC=x86_64-w64-mingw32-gcc
+
+CFLAGS = -Wall -std=c99 -I/usr/x86_64-w64-mingw32/include
+LDFLAGS = -L/usr/x86_64-w64-mingw32/lib \
+	-pthread -l:libws2_32.a -l:libwsock32.a
+
+EXE = bin/5m-ms.exe
+
+all: $(EXE)
+
+$(EXE): winmain.c
+	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+
+clean:
+	-rm *.o
+	-rm $(EXE)
+
+start: all
+	./bin/5m-ms 12003
+
+docker-build:
+	docker build -t 5m-ms-c-vanilla .
+
+docker-run:
+	docker run --rm -it -p 3005:12003 5m-ms-c-vanilla
