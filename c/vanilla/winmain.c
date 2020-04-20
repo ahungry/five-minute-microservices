@@ -14,14 +14,14 @@
 #include <ws2tcpip.h>
 #include <iphlpapi.h>
 #else
-// For good sytsems
+// For good systems
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/wait.h>
 #include <netdb.h>
+#include <unistd.h>
 #endif
 
-#include <unistd.h>
 #include <signal.h>
 #include "config.h"
 #include <pthread.h>
@@ -34,9 +34,29 @@
 
 WSADATA wsaData;
 
+void *
+thread_fn (void *ptr)
+{
+  intptr_t csock = (intptr_t) ptr;
+  fprintf (stderr, "I am the thread and you called me on %ld!\n", csock);
+  printf ("HELLO FROM %ld\n", csock);
+
+  /* http_send_client_response (csock); */
+  /* close(csock); */
+
+  return NULL;
+}
+
+
 int main(int argc, char *argv[])
 {
   int iResult;
+
+  // BEGIN thread test
+  int csock = 5;
+  pthread_t pth;
+  pthread_create(&pth, NULL, thread_fn, (void*)(intptr_t)csock);
+  // END thread test
 
   // Initialize Winsock
   iResult = WSAStartup (MAKEWORD (2,2), &wsaData);

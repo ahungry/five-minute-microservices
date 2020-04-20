@@ -2,7 +2,7 @@ CC=x86_64-w64-mingw32-gcc
 
 CFLAGS = -Wall -std=c99 -I/usr/x86_64-w64-mingw32/include
 LDFLAGS = -L/usr/x86_64-w64-mingw32/lib \
-	-pthread -l:libws2_32.a -l:libwsock32.a
+	-pthread -l:libws2_32.a -l:libwsock32.a -l:libwinpthread.a
 
 EXE = bin/5m-ms.exe
 
