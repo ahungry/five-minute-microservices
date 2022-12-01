@@ -16,6 +16,8 @@
     - [Nginx libfcgi (around a tiny C sample)](#nginx-libfcgi-around-a-tiny-c-sample)
     - [J (https://jsoftware.com)](#j-httpsjsoftwarecom)
     - [Clojure Luminus framework via 'lein new luminus luminus-webserver'](#clojure-luminus-framework-via-lein-new-luminus-luminus-webserver)
+    - [Nim (prologue - https://planety.github.io/prologue/)](#nim-prologue---httpsplanetygithubioprologue)
+    - [Python (fastapi)](#python-fastapi)
 
 <!-- markdown-toc end -->
 
@@ -468,5 +470,106 @@ Successful transactions:      100000
 Failed transactions:               0
 Longest transaction:            0.09
 Shortest transaction:           0.00
+
+```
+
+## Nim (prologue - https://planety.github.io/prologue/)
+
+```sh
+siege -r100 -c10 http://localhost:8080
+
+Transactions:                   1000 hits
+Availability:                 100.00 %
+Elapsed time:                   0.11 secs
+Data transferred:               0.02 MB
+Response time:                  0.00 secs
+Transaction rate:            9090.91 trans/sec
+Throughput:                     0.15 MB/sec
+Concurrency:                    9.27
+Successful transactions:        1000
+Failed transactions:               0
+Longest transaction:            0.01
+Shortest transaction:           0.00
+
+siege -r100 -c100 http://localhost:8080
+
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                   1.04 secs
+Data transferred:               0.16 MB
+Response time:                  0.01 secs
+Transaction rate:            9615.38 trans/sec
+Throughput:                     0.16 MB/sec
+Concurrency:                   93.78
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:            0.08
+Shortest transaction:           0.00
+
+siege -r1000 -c100 http://localhost:8080
+
+Transactions:                 100000 hits
+Availability:                 100.00 %
+Elapsed time:                  10.35 secs
+Data transferred:               1.62 MB
+Response time:                  0.01 secs
+Transaction rate:            9661.83 trans/sec
+Throughput:                     0.16 MB/sec
+Concurrency:                   97.87
+Successful transactions:      100000
+Failed transactions:               0
+Longest transaction:            0.12
+Shortest transaction:           0.00
+
+```
+
+## Python (fastapi)
+
+```sh
+siege -r100 -c10 http://localhost:8000
+
+Transactions:                   1000 hits
+Availability:                 100.00 %
+Elapsed time:                   0.47 secs
+Data transferred:               0.02 MB
+Response time:                  0.00 secs
+Transaction rate:            2127.66 trans/sec
+Throughput:                     0.03 MB/sec
+Concurrency:                    9.77
+Successful transactions:        1000
+Failed transactions:               0
+Longest transaction:            0.01
+Shortest transaction:           0.00
+
+siege -r100 -c100 http://localhost:8000
+
+Transactions:                  10000 hits
+Availability:                 100.00 %
+Elapsed time:                   4.78 secs
+Data transferred:               0.16 MB
+Response time:                  0.05 secs
+Transaction rate:            2092.05 trans/sec
+Throughput:                     0.03 MB/sec
+Concurrency:                   98.66
+Successful transactions:       10000
+Failed transactions:               0
+Longest transaction:            0.15
+Shortest transaction:           0.03
+
+siege -r1000 -c100 http://localhost:8080
+
+Transactions:                 100000 hits
+Availability:                 100.00 %
+Elapsed time:                  46.62 secs
+Data transferred:               1.62 MB
+Response time:                  0.05 secs
+Transaction rate:            2145.00 trans/sec
+Throughput:                     0.03 MB/sec
+Concurrency:                   99.22
+Successful transactions:      100000
+Failed transactions:               0
+Longest transaction:            0.16
+Shortest transaction:           0.01
+
 
 ```

@@ -9,6 +9,7 @@
 - [Project Layout](#project-layout)
 - [Requirements](#requirements)
 - [Version 0.0.x](#version-00x)
+- [Version 0.1.x](#version-01x)
 - [License](#license)
 - [Copyright](#copyright)
 
