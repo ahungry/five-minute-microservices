@@ -10,7 +10,7 @@ app.addRoute("/", hello)
 app.run()
 
 # RAM Usage (after 10,000 requests from siege)
-#   valgrind ./hw_app
+#   valgrind ./api.bin
 #     in use at exit: 2,523 bytes in 9 blocks
 
 # Performance
